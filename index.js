@@ -68,13 +68,19 @@ app.post('/game/create', (req, res) =>{
 })
 //acess the game by id
 app.get("/game/:gameId", (req, res) =>{
+  
   io.on('connection', (socket) => {
-    socket.emit('new player');
-    socket.id = uuid.v1();
     console.log('a user connected', socket.id);
-    io.sockets.emit('message', 'hi!');
-    console.log(io.sockets.clients());
+    socket.on("joinRoom", room  => {
+      console.log('Inside of the lobby');
+      socket.join(room)
+      
+      
+    })
+    
+
   });
+  
     const usersRef = db.collection('games').doc(req.params.gameId)
     usersRef.get()
       .then((docSnapshot) => {
