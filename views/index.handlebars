@@ -1,0 +1,29 @@
+
+<form action="/game/create" method = "post"> 
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Session password</label>
+    <input type="password" class="form-control" name ="password" placeholder="Password"  required>
+  </div>
+  <div class="form-group">
+    <label for="exampleFormControlSelect1">Number of people</label>
+    <select class="form-control" id="exampleFormControlSelect1" name= "choosingField" required>
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option>5</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="exampleFormControlSelect2">What type of question do you want to have?</label>
+    <select multiple class="form-control" id="exampleFormControlSelect2" name="questionType" required>
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option>5</option>
+    </select>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
