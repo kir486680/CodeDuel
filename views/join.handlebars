@@ -1,0 +1,50 @@
+<script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-app.js"></script>
+
+  <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-analytics.js"></script>
+
+  <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-firestore.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+      const socket = io();
+      
+
+    
+    function joinLobby() {
+        
+        var lobbyName = document.getElementById("pin").value;
+        var name = document.getElementById("name").value;
+          db.collection('games').where("gameId", "==", lobbyName)
+       .get()
+       .then(function(querySnapshot) {
+           querySnapshot.forEach(function(doc) {
+            socket.emit("player-join", {
+            name: name,
+            lobbyId: lobbyName
+          })
+           });
+       })
+       .catch(function(error) {
+        cnosole.log("NOt  found")
+       });
+
+    }
+  </script>
+<h1 id = "title">Join a Game</h1>
+<form action="/join/" method = "post">
+        <div class="form-field">
+            <label id = "label">Display Name</label>
+            <input id = "name" type = "text" name="name" autofocus/>
+        </div>
+        <br>
+        <div class="form-field">
+            <label id = "label">Game Pin</label>
+            <input id = "pin" type="text" name="pin"/>
+        </div>
+        <br>
+        <div class="form-field">
+            <button id = "joinButton" onclick="joinLobby()">Join</button>
+        </div>
+</form>
+<br/>
+<center><a href = "/game/create/" id = "host">Click here to host a Kahoot!</a></center>

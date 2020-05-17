@@ -1,5 +1,13 @@
-<div class="se-widget" data-widget="Loz4dLm2A2"></div>
+<div class="se-widget" data-widget="Loz4dLm2A2" data-id="example-widget"></div>
+<script src="/socket.io/socket.io.js"></script>
 <script>
+  const socket = io();
+  const roomName = window.location.href.slice(-20);
+ // socket.emit('player-join', roomName);
+  socket.on('message', function(msg){
+      
+        console.log("received")
+    });
 (function(d, s, id){
   SE_BASE = "b251a391.widgets.sphere-engine.com";
   SE_HTTPS = true;
@@ -9,13 +17,34 @@
   js = d.createElement(s); js.id = id;
   js.src = (SE_HTTPS ? "https" : "http") + "://" + SE_BASE + "/static/sdk/sdk.min.js";
   fjs.parentNode.insertBefore(js, fjs);
-}(document, "script", "sphere-engine-jssdk"));</script>
+}(document, "script", "sphere-engine-jssdk"));
+SE.ready = function(f){if (document.readyState != "loading" && document.readyState != "interactive") f();else window.addEventListener("load", f);};
+SE.ready(function() {
 
-    <script src="/socket.io/socket.io.js"></script>
+    var checkStatus = function(data) {
+      
+      if(data.status.description == "accepted"){
+        console.log("Got it")
+      }else if(data.status.description == "wrong answer"){
+        console.log("fail")
+         
+      }
+        $('#result')
+            .append("<br><br>")
+            .append("> submission.id: " + data.submission.id + "<br>")
+            .append("> status.number: " + data.status.number + "<br>")
+            .append("> status.description: " + data.status.description + "<br>")
+            .append("> submission.memory: " + data.submission.memory + "<br>")
+            .append("> submission.time: " + data.submission.time + "<br>");
 
+        $('#result').scrollTop($('#result').prop("scrollHeight"));
+    };
 
-  <script>
-const socket = io();
-socket.emit("joinRoom", "csgo");
+    var SEWidget = SE.widget("example-widget");
+    SEWidget.events.subscribe('checkStatus', checkStatus);
+});
+</script>
 
-  </script>
+ 
+
+ 

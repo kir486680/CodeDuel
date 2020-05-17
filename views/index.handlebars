@@ -1,8 +1,40 @@
+<script src="/socket.io/socket.io.js"></script>
+<script>
 
+  document.addEventListener('DOMContentLoaded', function(){
+        var lobbyName = document.getElementById("custId");
+        
+lobbyName.value = create_UUID();
+    })
+
+const socket = io();
+function create_UUID(){
+    var dt = new Date().getTime();
+    var uuid = 'xxxxxxxx-4xxx'.replace(/[xy]/g, function(c) {
+        var r = (dt + Math.random()*16)%16 | 0;
+        dt = Math.floor(dt/16);
+        return (c=='x' ? r :(r&0x3|0x8)).toString(16);
+    });
+    return uuid;
+}
+function createLobby(){
+            var name = document.getElementById("name").value;
+            var givenLobbyName = document.getElementById("custId").value;
+            console.log(givenLobbyName)
+            socket.emit("player-join", {
+            name: name,
+            lobbyId: givenLobbyName
+          })
+}
+</script>
 <form action="/game/create" method = "post"> 
   <div class="form-group">
     <label for="exampleFormControlInput1">Session password</label>
-    <input type="password" class="form-control" name ="password" placeholder="Password"  required>
+    <input type="password" class="form-control" id="password" name ="password" placeholder="Password"  required>
+  </div>
+    <div class="form-group">
+    <label for="exampleFormControlInput1">Your name</label>
+    <input type="text" class="form-control" id="name" name ="name" placeholder="Your name"  required>
   </div>
   <div class="form-group">
     <label for="exampleFormControlSelect1">Number of people</label>
@@ -24,6 +56,7 @@
       <option>5</option>
     </select>
   </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+   <input  type="hidden" id="custId" name="custId" value="3487">
+  <button onclick="createLobby()" type="submit" class="btn btn-primary">Submit</button>
 </form>
 
